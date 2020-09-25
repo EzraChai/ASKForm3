@@ -27,7 +27,7 @@ public class Tidur {
         String waktuBangun = s.nextLine();
 
         //kalau pengguna memasuki waktu Bangun yang tidak berformat,System akan memaparkan ERROR dan keluar.
-        boolean waktuBangun2 = (isValidFormat("HH:mm", waktuTidur));
+        boolean waktuBangun2 = (isValidFormat("HH:mm", waktuBangun));
         if (!waktuBangun2){
             System.out.println("Tolong masukkan waktu TIDUR yang berformat betul.");
             System.exit(0);
@@ -50,31 +50,43 @@ public class Tidur {
         // Cari beza
         long difference ;
 
-        //kalau masa Tidur lebih besar daripada masa Bangun , +24 jam untuk masa Bangun.
+        //kalau masa Tidur lebih besar daripada masa Bangun , (masa Bangun + 24 jam - masa Tidur ).
         if (t1.compareTo(t2)> 0) {
             difference = (long) ((t2.getTime() + 8.64e+7) - t1.getTime());
-        } else if (t2.compareTo(t1)> 0){//jika tidak ( masa Bangun - masa Tidur )
+        }
+        //jika masa Tidur lebih kecil daripada masa Bangun, ( masa Bangun - masa Tidur )
+        else if (t2.compareTo(t1)> 0) {
             difference = t2.getTime() - t1.getTime();
-        }else{
+        }
+        //Jika masa Tidur sama dengan masa Bangun
+        else{
             difference = (long) 8.64e+7;
         }
 
-        //tukar millisaat kepada Jam
-        long hour = (long) (difference/ 3.6e+6);
+        //tukarkan millisaat kepada minit
+        double minutes = (double) difference / 60000;
+
+        //Tukarkan minit kepada  jam dan minit
+        int hour = 0;
+        while (minutes >= 60){
+            hour ++;
+            minutes -= 60;
+        }
+        int minutes1 = (int) minutes;
 
         System.out.println();
-        Output(hour);
+        Output(hour,minutes1);
     }
     //Output
-    public static void Output(long hour){
+    public static void Output(int hour,int minutes1){
         if (hour < 4){
-            System.out.println("Tidak memuaskan. Anda hanya tidur : " + hour + " jam");
+            System.out.println("Tidak memuaskan. Anda hanya tidur: " + hour + " jam " + minutes1 + "minit");
         }else if(hour < 6){
-            System.out.println("Memuaskan. Anda telah tidur : " + hour + " jam");
+            System.out.println("Memuaskan. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
         }else if (hour < 8){
-            System.out.println("Baik. Anda telah tidur : " + hour + " jam");
-        }else if (hour > 8){
-            System.out.println("Cemerlang. Anda telah tidur : " + hour + " jam");
+            System.out.println("Baik. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
+        }else {
+            System.out.println("Cemerlang. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
         }
     }
 
