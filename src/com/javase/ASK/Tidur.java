@@ -60,7 +60,7 @@ public class Tidur {
         }
         //Jika masa Tidur sama dengan masa Bangun
         else{
-            difference = (long) 8.64e+7;
+            difference = 0;
         }
 
         //tukarkan millisaat kepada minit
@@ -80,7 +80,7 @@ public class Tidur {
     //Output
     public static void Output(int hour,int minutes1){
         if (hour < 4){
-            System.out.println("Tidak memuaskan. Anda hanya tidur: " + hour + " jam " + minutes1 + "minit");
+            System.out.println("Tidak memuaskan. Anda hanya tidur: " + minutes1 + " minit");
         }else if(hour < 6){
             System.out.println("Memuaskan. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
         }else if (hour < 8){
