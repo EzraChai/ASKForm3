@@ -100,7 +100,7 @@ public class MasaTidurIO {
 
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream("/home/juanzhe/Documents/IO/MasaTidur",true);
+            fos = new FileOutputStream("D:/IO/MasaTidur",true);
             String outAll = (nama + "          " + hour + " Jam  " + minutes + " Minit");
             byte[]bytes = outAll.getBytes();
             byte[]enter = {10};
