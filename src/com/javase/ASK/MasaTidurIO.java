@@ -1,19 +1,35 @@
 package com.javase.ASK;
 
-//import fail yang perlu digunakan
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Tidur {
+public class MasaTidurIO {
+
+    //Output
+    public static void Output(int hour,int minutes1){
+        if (hour < 4){
+            System.out.println("Tidak memuaskan. Anda hanya tidur: " + minutes1 + " minit");
+        }else if(hour < 6){
+            System.out.println("Memuaskan. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
+        }else if (hour < 8){
+            System.out.println("Baik. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
+        }else {
+            System.out.println("Cemerlang. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
+        }
+    }
+
+
     public static void main(String[] args) throws ParseException {
         Scanner s = new Scanner(System.in);
 
         //Start
         System.out.println("----------Soal Selidik Masa Tidur Anda----------");
         System.out.println();
-        System.out.print("Sila masukkan NAMA anda :");
+        System.out.print("Sila masukkan NAMA anda : ");
         String nama = s.nextLine();
 
         //Input Masukkan waktu Tidur
@@ -81,18 +97,32 @@ public class Tidur {
 
         System.out.println();
         Output(hour,minutes1);
-    }
-    //Output
-    public static void Output(int hour,int minutes1){
-        if (hour < 4){
-            System.out.println("Tidak memuaskan. Anda hanya tidur: " + minutes1 + " minit");
-        }else if(hour < 6){
-            System.out.println("Memuaskan. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
-        }else if (hour < 8){
-            System.out.println("Baik. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
-        }else {
-            System.out.println("Cemerlang. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream("/home/juanzhe/Documents/IO/MasaTidur",true);
+            String outAll = (nama + "          " + hour + " Jam  " + minutes + " Minit");
+            byte[]bytes = outAll.getBytes();
+            byte[]enter = {10};
+            byte[] destination = new byte[bytes.length + enter.length];
+            System.arraycopy(bytes, 0, destination, 0, bytes.length);
+            System.arraycopy(enter, 0, destination, bytes.length, enter.length);
+
+            fos.write(destination);
+
+            fos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
     }
 
     //Cari berformat atau tidak untuk input pengguna
