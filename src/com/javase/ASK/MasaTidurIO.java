@@ -16,11 +16,13 @@ public class MasaTidurIO {
         boolean waktuTidur2 = false;
         boolean waktuBangun2 = false;
         String waktuBangun = null;
-            //Start
+        String nama;
+
+        //Start
         System.out.println("----------------Soal Selidik Masa Tidur Anda----------------");
         System.out.println();
         System.out.print("Sila masukkan NAMA anda : ");
-        String nama = s.nextLine();
+        nama = s.nextLine();
         System.out.println();
         System.out.println("Selamat Datang, ["+nama+"]");
 
@@ -30,7 +32,7 @@ public class MasaTidurIO {
             waktuTidur = s.nextLine();//23:00
 
             //kalau pengguna memasuki waktu Tidur yang tidak berformat,System akan memaparkan ERROR dan keluar.
-            waktuTidur2 = (isValidFormat("HH:mm", waktuTidur));
+            waktuTidur2 = (isValidFormat(waktuTidur));
             if (!waktuTidur2) {//false
                 System.out.println("Tolong masukkan waktu TIDUR yang berformat betul.");
                 System.out.println('\n');
@@ -43,7 +45,7 @@ public class MasaTidurIO {
             waktuBangun = s.nextLine();
 
             //kalau pengguna memasuki waktu Bangun yang tidak berformat,System akan memaparkan ERROR dan keluar.
-            waktuBangun2 = (isValidFormat("HH:mm", waktuBangun));
+            waktuBangun2 = (isValidFormat(waktuBangun));
             if (!waktuBangun2) {
                 System.out.println("Tolong masukkan waktu TIDUR yang berformat betul.");
                 System.out.println('\n');
@@ -58,21 +60,21 @@ public class MasaTidurIO {
          */
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
-        //tukar masa kepada millisaat
+        //Tukar masa kepada millisaat
         Date t1 = format.parse(waktuTidur);
         //23:00//1:00
 
-        //tukar masa kepada millisaat//7:00
+        //Tukar masa kepada millisaat//7:00
         Date t2 = format.parse(waktuBangun);
 
-        // Cari beza
+        //Cari bezaan
         long difference ;
 
-        //kalau masa Tidur lebih besar daripada masa Bangun , (masa Bangun + 24 jam - masa Tidur ).
+        //Jika masa Tidur lebih besar daripada masa Bangun , (masa Bangun + 24 jam - masa Tidur ).
         if (t1.compareTo(t2)> 0) {
             difference = (long) ((t2.getTime() + 8.64e+7) - t1.getTime());
         }
-        //jika masa Tidur lebih kecil daripada masa Bangun, ( masa Bangun - masa Tidur )
+        //Jika masa Tidur lebih kecil daripada masa Bangun, ( masa Bangun - masa Tidur )
         else if (t2.compareTo(t1)> 0) {
             difference = t2.getTime() - t1.getTime();
         }
@@ -81,10 +83,10 @@ public class MasaTidurIO {
             difference = 0;
         }
 
-        //tukarkan millisaat kepada minit
+        //Tukarkan millisaat kepada minit
         double minutes = (double) difference / 60000;
 
-        //Tukarkan minit kepada  jam dan minit
+        //Tukarkan minit kepada jam dan minit
         int hour = 0;
         while (minutes >= 60){
             hour ++;
@@ -95,7 +97,7 @@ public class MasaTidurIO {
         System.out.println();
         Output(hour,minutes1);
 
-        //IO -- Data Murid Output ke D:/IO/MasaTidur
+        //IO -- Data Murid Output ke "D:/IO/MasaTidur"
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream("D:/IO/MasaTidur",true);
@@ -123,10 +125,10 @@ public class MasaTidurIO {
     }
 
     //Cari berformat atau tidak untuk input pengguna
-    public static boolean isValidFormat(String format, String value) {
+    private static boolean isValidFormat(String value) {
         Date date = null;
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat(format);
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             date = sdf.parse(value);
             if (!value.equals(sdf.format(date))) {
                 date = null;
@@ -138,7 +140,7 @@ public class MasaTidurIO {
     }
 
     //Output
-    public static void Output(int hour,int minutes1){
+    private static void Output(int hour,int minutes1){
         if (hour < 4){
             System.out.println("Tidak memuaskan. Anda hanya tidur: " + minutes1 + " minit");
         }else if(hour < 6){
