@@ -26,32 +26,41 @@ public class MasaTidurIO {
     public static void main(String[] args) throws ParseException {
         Scanner s = new Scanner(System.in);
 
-        //Start
-        System.out.println("----------Soal Selidik Masa Tidur Anda----------");
-        System.out.println();
-        System.out.print("Sila masukkan NAMA anda : ");
-        String nama = s.nextLine();
+        String waktuTidur = null;
+        boolean waktuTidur2 = false;
+        boolean waktuBangun2 = false;
+        String waktuBangun = null;
+            //Start
+            System.out.println("----------------Soal Selidik Masa Tidur Anda----------------");
+            System.out.println();
+            System.out.print("Sila masukkan NAMA anda : ");
+            String nama = s.nextLine();
 
-        //Input Masukkan waktu Tidur
-        System.out.print("Sila masukkan waktu TIDUR anda dalam format 24 jam [00:00]-[23:59]: ");
-        String waktuTidur = s.nextLine();//23:00
+        while (!waktuTidur2) {
+            //Input Masukkan waktu Tidur
+            System.out.print("Sila masukkan waktu TIDUR anda dalam format 24 jam [00:00]-[23:59]: ");
+            waktuTidur = s.nextLine();//23:00
 
-        //kalau pengguna memasuki waktu Tidur yang tidak berformat,System akan memaparkan ERROR dan keluar.
-        boolean waktuTidur2 = (isValidFormat("HH:mm", waktuTidur));
-        if (!waktuTidur2){//false
-            System.out.println("Tolong masukkan waktu TIDUR yang berformat betul.");
-            System.exit(0);
+            //kalau pengguna memasuki waktu Tidur yang tidak berformat,System akan memaparkan ERROR dan keluar.
+            waktuTidur2 = (isValidFormat("HH:mm", waktuTidur));
+            if (!waktuTidur2) {//false
+                System.out.println("Tolong masukkan waktu TIDUR yang berformat betul.");
+                System.out.println('\n');
+                System.out.println("-------------------------PEMBETULAN-------------------------");
+            }
         }
+        while (!waktuBangun2) {
+            //Input Masukkan waktu Bangun
+            System.out.print("Sila masukkan waktu BANGUN anda dalam format 24 jam [00:00]-[23:59]: ");
+            waktuBangun = s.nextLine();
 
-        //Input Masukkan waktu Bangun
-        System.out.print("Sila masukkan waktu BANGUN anda dalam format 24 jam [00:00]-[23:59]: ");
-        String waktuBangun = s.nextLine();
-
-        //kalau pengguna memasuki waktu Bangun yang tidak berformat,System akan memaparkan ERROR dan keluar.
-        boolean waktuBangun2 = (isValidFormat("HH:mm", waktuBangun));
-        if (!waktuBangun2){
-            System.out.println("Tolong masukkan waktu TIDUR yang berformat betul.");
-            System.exit(0);
+            //kalau pengguna memasuki waktu Bangun yang tidak berformat,System akan memaparkan ERROR dan keluar.
+            waktuBangun2 = (isValidFormat("HH:mm", waktuBangun));
+            if (!waktuBangun2) {
+                System.out.println("Tolong masukkan waktu TIDUR yang berformat betul.");
+                System.out.println('\n');
+                System.out.println("-------------------------PEMBETULAN-------------------------");
+            }
         }
 
         //format masa kepada HH:mm
@@ -98,6 +107,7 @@ public class MasaTidurIO {
         System.out.println();
         Output(hour,minutes1);
 
+        //IO -- Data Murid Output ke D:/IO/MasaTidur
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream("D:/IO/MasaTidur",true);
@@ -122,7 +132,6 @@ public class MasaTidurIO {
                 }
             }
         }
-
     }
 
     //Cari berformat atau tidak untuk input pengguna
