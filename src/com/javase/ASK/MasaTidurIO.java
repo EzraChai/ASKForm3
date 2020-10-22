@@ -9,20 +9,6 @@ import java.util.Scanner;
 
 public class MasaTidurIO {
 
-    //Output
-    public static void Output(int hour,int minutes1){
-        if (hour < 4){
-            System.out.println("Tidak memuaskan. Anda hanya tidur: " + minutes1 + " minit");
-        }else if(hour < 6){
-            System.out.println("Memuaskan. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
-        }else if (hour < 8){
-            System.out.println("Baik. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
-        }else {
-            System.out.println("Cemerlang. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
-        }
-    }
-
-
     public static void main(String[] args) throws ParseException {
         Scanner s = new Scanner(System.in);
 
@@ -31,10 +17,12 @@ public class MasaTidurIO {
         boolean waktuBangun2 = false;
         String waktuBangun = null;
             //Start
-            System.out.println("----------------Soal Selidik Masa Tidur Anda----------------");
-            System.out.println();
-            System.out.print("Sila masukkan NAMA anda : ");
-            String nama = s.nextLine();
+        System.out.println("----------------Soal Selidik Masa Tidur Anda----------------");
+        System.out.println();
+        System.out.print("Sila masukkan NAMA anda : ");
+        String nama = s.nextLine();
+        System.out.println();
+        System.out.println("Selamat Datang, ["+nama+"]");
 
         while (!waktuTidur2) {
             //Input Masukkan waktu Tidur
@@ -147,6 +135,19 @@ public class MasaTidurIO {
             System.out.println(ex.getMessage());
         }
         return date != null;
+    }
+
+    //Output
+    public static void Output(int hour,int minutes1){
+        if (hour < 4){
+            System.out.println("Tidak memuaskan. Anda hanya tidur: " + minutes1 + " minit");
+        }else if(hour < 6){
+            System.out.println("Memuaskan. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
+        }else if (hour < 8){
+            System.out.println("Baik. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
+        }else {
+            System.out.println("Cemerlang. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
+        }
     }
 }
 
