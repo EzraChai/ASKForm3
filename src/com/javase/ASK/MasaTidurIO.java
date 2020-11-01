@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class MasaTidurIO {
-
     public static void main(String[] args) throws ParseException {
         Scanner s = new Scanner(System.in);
 
@@ -17,25 +16,25 @@ public class MasaTidurIO {
         boolean waktuBangun2 = false;
         String waktuBangun = null;
         String nama;
+        int hour = 0;
+        double minutes = 0;
 
         //Start
         System.out.println("----------------Soal Selidik Masa Tidur Anda----------------");
         System.out.println();
         System.out.print("Sila masukkan NAMA anda : ");
         nama = s.nextLine();
-        System.out.println();
-        System.out.println("Selamat Datang, ["+nama+"]");
+        System.out.println("\nSelamat Datang, ["+nama+"]");
 
         while (!waktuTidur2) {
             //Input Masukkan waktu Tidur
             System.out.print("Sila masukkan waktu TIDUR anda dalam format 24 jam [00:00]-[23:59]: ");
-            waktuTidur = s.nextLine();//23:00
+            waktuTidur = s.nextLine();
 
-            //kalau pengguna memasuki waktu Tidur yang tidak berformat,System akan memaparkan ERROR dan keluar.
+            //Jika pengguna memasuki waktu Tidur yang berformat salah,system akan memaparkan ERROR dan masukkan sekali lagi.
             waktuTidur2 = (isValidFormat(waktuTidur));
-            if (!waktuTidur2) {//false
-                System.out.println("Tolong masukkan waktu TIDUR yang berformat betul.");
-                System.out.println('\n');
+            if (!waktuTidur2) {
+                System.out.println("Tolong masukkan waktu TIDUR yang berformat betul.\n\n");
                 System.out.println("-------------------------PEMBETULAN-------------------------");
             }
         }
@@ -44,11 +43,10 @@ public class MasaTidurIO {
             System.out.print("Sila masukkan waktu BANGUN anda dalam format 24 jam [00:00]-[23:59]: ");
             waktuBangun = s.nextLine();
 
-            //kalau pengguna memasuki waktu Bangun yang tidak berformat,System akan memaparkan ERROR dan keluar.
+            //Jika pengguna memasuki waktu Tidur yang berformat salah,system akan memaparkan ERROR dan masukkan sekali lagi.
             waktuBangun2 = (isValidFormat(waktuBangun));
             if (!waktuBangun2) {
-                System.out.println("Tolong masukkan waktu TIDUR yang berformat betul.");
-                System.out.println('\n');
+                System.out.println("Tolong masukkan waktu TIDUR yang berformat betul.\n\n");
                 System.out.println("-------------------------PEMBETULAN-------------------------");
             }
         }
@@ -62,40 +60,29 @@ public class MasaTidurIO {
 
         //Tukar masa kepada millisaat
         Date t1 = format.parse(waktuTidur);
-        //23:00//1:00
 
-        //Tukar masa kepada millisaat//7:00
+        //Tukar masa kepada millisaat
         Date t2 = format.parse(waktuBangun);
 
         //Cari bezaan
         long difference ;
 
-        //Jika masa Tidur lebih besar daripada masa Bangun , (masa Bangun + 24 jam - masa Tidur ).
+        //Jika Tempoh Masa Tidur lebih besar daripada masa Bangun , (masa Bangun + 24 jam - masa Tidur ).
         if (t1.compareTo(t2)> 0) {
             difference = (long) ((t2.getTime() + 8.64e+7) - t1.getTime());
         }
-        //Jika masa Tidur lebih kecil daripada masa Bangun, ( masa Bangun - masa Tidur )
+        //Jika Tempoh Masa Tidur lebih kecil daripada masa Bangun, ( masa Bangun - masa Tidur )
         else if (t2.compareTo(t1)> 0) {
             difference = t2.getTime() - t1.getTime();
         }
-        //Jika masa Tidur sama dengan masa Bangun
+        //Jika Tempoh Masa Tidur sama dengan masa Bangun
         else{
             difference = 0;
         }
 
-        //Tukarkan millisaat kepada minit
-        double minutes = (double) difference / 60000;
-
-        //Tukarkan minit kepada jam dan minit
-        int hour = 0;
-        while (minutes >= 60){
-            hour ++;
-            minutes -= 60;
-        }
-        int minutes1 = (int) minutes;
-
+        int[]ar = changeTime(hour,minutes,difference);
         System.out.println();
-        Output(hour,minutes1);
+        Output(ar[0],ar[1]);
 
         //IO -- Data Murid Output ke "D:/IO/MasaTidur"
         FileOutputStream fos = null;
@@ -124,7 +111,7 @@ public class MasaTidurIO {
         }
     }
 
-    //Cari berformat atau tidak untuk input pengguna
+    //Memastikan pengguna memasukkan waktu Tidur dan waktu Bangun yang berformat BETUL
     private static boolean isValidFormat(String value) {
         Date date = null;
         try {
@@ -133,10 +120,29 @@ public class MasaTidurIO {
             if (!value.equals(sdf.format(date))) {
                 date = null;
             }
-        } catch (ParseException ex) {
-            System.out.println(ex.getMessage());
+        } catch (ParseException ignored) {
         }
         return date != null;
+    }
+
+    private static int[] changeTime(int hour, double minutes, long difference){
+        //Tukarkan millisaat kepada minit
+        minutes = (double) difference / 60000;
+
+        //Tukarkan minit kepada jam dan minit
+        while (minutes >= 60){
+            hour ++;
+            minutes -= 60;
+        }
+        return getExample(hour, (int) minutes);
+    }
+
+    private static int[] getExample(int hour, int minutes)
+    {
+        int ar[] = new int[2];
+        ar[0]= hour;
+        ar[1]= minutes;
+        return ar; //returning two values at once
     }
 
     //Output
@@ -152,4 +158,3 @@ public class MasaTidurIO {
         }
     }
 }
-
