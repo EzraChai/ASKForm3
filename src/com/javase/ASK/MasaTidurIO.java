@@ -94,7 +94,6 @@ public class MasaTidurIO {
         int[]ar = changeTime(hour, difference);
         System.out.println();
         Output(ar[0],ar[1]);
-        JDBC(nama,kelas,ar[0],ar[1]);
 
         //IO -- Data Murid Output ke "D:/IO/MasaTidur"
         FileOutputStream fos = null;
@@ -169,41 +168,5 @@ public class MasaTidurIO {
             System.out.println("Cemerlang. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
         }
     }
-    private static void JDBC(String nama,String kelas,int hour,int minutes){
-        Connection conn = null;
-        Statement stmt = null;
-        String tempoh_masa_tidur = hour + " jam " + minutes + "minit";
 
-        String url = "jdbc:mysql://localhost:3306/bjpowernode?useTimezone=true&serverTimezone=UTC ";
-        String username = "root";
-        String password = "D9806f2a2b";
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(url,username,password);
-            System.out.println(conn);
-            stmt = conn.createStatement();
-            String sql = "insert into masatidur(nama,kelas,tempoh_masa_tidur) values ("+nama+","+kelas+","+tempoh_masa_tidur+" )";
-            int count = stmt.executeUpdate(sql);
-            System.out.println(count == 1? "Updated":"Error occurred");
-
-
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }finally {
-            if (stmt != null){
-                try {
-                    stmt.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
-            if (conn != null){
-                try {
-                    conn.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
-        }
-    }
 }
