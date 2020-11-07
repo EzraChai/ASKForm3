@@ -1,4 +1,4 @@
-package com.javase.ASK;
+package com.jdbc;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-public class MasaTidurIO {
+public class MasaTidurJDBC {
     public static void main(String[] args) throws ParseException {
         Scanner s = new Scanner(System.in);
 
@@ -27,14 +27,14 @@ public class MasaTidurIO {
         //Start
         System.out.println("----------------Soal Selidik Masa Tidur Anda----------------");
         System.out.println();
-        while (nama == null ) {
+        do {
             System.out.print("Sila masukkan NAMA anda : ");
             nama = s.nextLine();
-        }
-        while (kelas == null) {
+        }while (!validateInputNama(nama));
+        do {
             System.out.print("Sila masukkan KELAS anda : ");
             kelas = s.nextLine();
-        }
+        }while (!validateInputKelas(kelas));
         System.out.println("\nSelamat Datang, ["+nama+"]");
 
         while (!waktuTidur2) {
@@ -96,31 +96,6 @@ public class MasaTidurIO {
         Output(ar[0],ar[1]);
         JDBC(nama,kelas,ar[0],ar[1]);
 
-        //IO -- Data Murid Output ke "D:/IO/MasaTidur"
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream("D:/IO/MasaTidur",true);
-            String outAll = (nama + "          " + hour + " Jam  " + minutes + " Minit");
-            byte[]bytes = outAll.getBytes();
-            byte[]enter = {10};
-            byte[] destination = new byte[bytes.length + enter.length];
-            System.arraycopy(bytes, 0, destination, 0, bytes.length);
-            System.arraycopy(enter, 0, destination, bytes.length, enter.length);
-
-            fos.write(destination);
-
-            fos.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     //Memastikan pengguna memasukkan waktu Tidur dan waktu Bangun yang berformat BETUL
@@ -157,6 +132,34 @@ public class MasaTidurIO {
         return ar; //returning two values at once
     }
 
+    //Nama tidak boleh dikosongkan
+    private static boolean validateInputNama(String nama) {
+
+        if(nama == null || nama.length() == 0) {
+            System.out.println("Nama anda tidak boleh dikosongkan.");
+            System.out.println();
+            return false;
+        }
+        else{
+        //... Other validation checks
+        return true;
+        }
+    }
+
+    //Kelas tidak boleh dikosongkan
+    private static boolean validateInputKelas(String kelas) {
+
+        if(kelas == null || kelas.length() == 0) {
+            System.out.println("Kelas anda tidak boleh dikosongkan.");
+            System.out.println();
+            return false;
+        }
+        else{
+            //... Other validation checks
+            return true;
+        }
+    }
+
     //Output
     private static void Output(int hour,int minutes1){
         if (hour < 4){
@@ -169,10 +172,12 @@ public class MasaTidurIO {
             System.out.println("Cemerlang. Anda telah tidur: " + hour + " jam " + minutes1 + " minit");
         }
     }
+
+    //Java DataBase Connectivity
     private static void JDBC(String nama,String kelas,int hour,int minutes){
         Connection conn = null;
         Statement stmt = null;
-        String tempoh_masa_tidur = hour + " jam " + minutes + "minit";
+        String tempoh_masa_tidur = hour + " jam " + minutes + " minit";
 
         String url = "jdbc:mysql://localhost:3306/bjpowernode?useTimezone=true&serverTimezone=UTC ";
         String username = "root";
@@ -180,12 +185,9 @@ public class MasaTidurIO {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(url,username,password);
-            System.out.println(conn);
             stmt = conn.createStatement();
-            String sql = "insert into masatidur(nama,kelas,tempoh_masa_tidur) values ("+nama+","+kelas+","+tempoh_masa_tidur+" )";
-            int count = stmt.executeUpdate(sql);
-            System.out.println(count == 1? "Updated":"Error occurred");
-
+            String sql = "insert into masatidur(nama,kelas,tempoh_masa_tidur) values (\""+nama+"\",\""+kelas+"\",\""+tempoh_masa_tidur+"\" )";
+            stmt.executeUpdate(sql);
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

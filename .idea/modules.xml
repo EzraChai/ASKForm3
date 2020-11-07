@@ -6,7 +6,11 @@
       <module fileurl="file://$PROJECT_DIR$/Chapter24/Chapter24.iml" filepath="$PROJECT_DIR$/Chapter24/Chapter24.iml" />
       <module fileurl="file://$PROJECT_DIR$/Chapter25/Chapter25.iml" filepath="$PROJECT_DIR$/Chapter25/Chapter25.iml" />
       <module fileurl="file://$PROJECT_DIR$/Chapter26/Chapter26.iml" filepath="$PROJECT_DIR$/Chapter26/Chapter26.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JDBC/JDBC.iml" filepath="$PROJECT_DIR$/JDBC/JDBC.iml" />
       <module fileurl="file://$PROJECT_DIR$/JavaSE.iml" filepath="$PROJECT_DIR$/JavaSE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Selenium/Selenium.iml" filepath="$PROJECT_DIR$/Selenium/Selenium.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SeleniumJavaFramework/SeleniumJavaFramework.iml" filepath="$PROJECT_DIR$/SeleniumJavaFramework/SeleniumJavaFramework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SeleniumTest/SeleniumTest.iml" filepath="$PROJECT_DIR$/SeleniumTest/SeleniumTest.iml" />
     </modules>
   </component>
 </project>
